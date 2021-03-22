@@ -1,27 +1,33 @@
-<HTML>
-    <HEAD>
-    <TITLE>ADV-IT</TITLE>
-    <SCRIPT LANGUAGE="JavaScript">
-          var sizes = new Array(0,1,2,4,8,10,12);
-          sizes.pos = 0;
-        
-    function Elastic()
-    {
-        var el = document.all.elastic
-        if (null == el.direction)el.direction = 1
-        else if ((sizes.pos > sizes.length - 2) || (0 == sizes.pos))
-        el.direction *= -1
-        el.style.letterSpacing = sizes[sizes.pos += el.direction]
-    setTimeout('Elastic()',100)
-    }
-    
-    </SCRIPT>
-    <BODY  bgcolor=black  onLoad=Elastic()>
-    <CENTER>
-    <font color="white"><h2>Hello from <font color="yellow">Denis Astahov!</font><br>
-    Welcome to Python Flask Web Page!
-    <font color="gold"><H1 ID="elastic" ALIGN="Center">GitHub Actions RULEZZzz!</H1>
-    <br>
-    
-    </body>
-    </HTML>
+{% extends "import.html" %} 
+{% block content %}
+
+<center>
+<h2>Image Recognition System</h2><br>
+
+<div>
+    <form id="upload-file" method="post" enctype="multipart/form-data">
+        <label for="imageUpload" class="btn btn-primary">
+            Upload Image
+        </label>
+        <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg">
+    </form>
+
+    <div class="image-section" style="display:none;">
+        <div class="img-preview">
+            <div id="imagePreview">
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-info btn-lg " id="btn-predict">Predict!</button>
+        </div>
+    </div>
+
+    <div class="loader" style="display:none;"></div>
+
+    <h3 id="result">
+        <span> </span>
+    </h3>
+
+</div>
+</center><br><br>
+{% endblock %}
