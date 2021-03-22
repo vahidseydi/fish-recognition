@@ -27,6 +27,39 @@ s3_resource = boto3.resource(
 application = Flask(__name__)
 app = application
 
+def get_result(response):
+    s=[]
+    s.append('Detected labels :' )
+    s.append("\n")
+    for label in response['Labels']:
+        s.append ("Label: " + label['Name'])
+        s.append("\n")
+        s.append ("Confidence: " + str(label['Confidence']))
+        s.append("\n")
+        s.append ("Instances:")
+        s.append("\n")
+        for instance in label['Instances']:
+            s.append ("  Bounding box")
+            s.append("\n")
+            s.append  ("    Top: " + str(instance['BoundingBox']['Top']))
+            s.append("\n")
+            s.append  ("    Left: " + str(instance['BoundingBox']['Left']))
+            s.append("\n")
+            s.append  ("    Width: " +  str(instance['BoundingBox']['Width']))
+            s.append("\n")
+            s.append  ("    Height: " +  str(instance['BoundingBox']['Height']))
+            s.append("\n")
+            s.append  ("  Confidence: " + str(instance['Confidence']))
+            s.append("\n")
+
+        s.append("\n")
+        s.append("Parents:")
+        for parent in label['Parents']:
+            s.append("   " + parent['Name'])
+        s.append ("----------")
+        s.append("\n")
+    return ''.join(s)
+
 @app.route('/', methods=['GET'])
 def index():
     # Main page
@@ -45,7 +78,7 @@ def upload():
         
         # Make prediction
        
-        '''
+        
         client=boto3.client('rekognition','eu-west-2')
         response = client.detect_labels(Image={'S3Object':{'Bucket':S3_BUCKET,'Name':Key}},
         MaxLabels=10)
@@ -54,8 +87,8 @@ def upload():
         print(str(len(response['Labels'])))
         result = get_result(response)               # Convert to string
         return result
-        '''
-        return "hello"
+        
+       
        
 
     return None
