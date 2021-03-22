@@ -6,18 +6,26 @@
 # 1.0          13-Dec-2019    Initial Version
 #
 # ----------------------------------------------
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 import boto3
 import dotenv
 import os
+from werkzeug.utils import secure_filename
 
-aws_access_key_id      = os.gevent('aws_access_key_id')
-aws-secret-access-key  = os.gevent('aws-secret-access-key')
-aws-region ='eu-west-2'
+S3_KEY      = os.getenv('aws_access_key_id')
+S3_SECRET  = os.getenv('aws_secret_access_key')
+aws_region ='eu-west-2'
 S3_BUCKET='fish-classification-bucket'
 
-application = Flask(__name__)
 
+s3_resource = boto3.resource(
+   "s3",
+   aws_access_key_id=S3_KEY,
+   aws_secret_access_key=S3_SECRET
+)
+
+application = Flask(__name__)
+app = application
 
 @app.route('/', methods=['GET'])
 def index():
@@ -32,7 +40,6 @@ def upload():
         f = request.files['file']
 
         # Save the file to .s3/<bucetname>/test
-        s3_resource = boto3.resource('s3')
         Key = 'test/{}'.format(secure_filename(f.filename))
         s3_resource.Bucket(S3_BUCKET).put_object(Key=Key,Body=f)
         
