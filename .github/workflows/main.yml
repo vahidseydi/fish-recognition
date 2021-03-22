@@ -12,7 +12,7 @@ env:
   EB_PACKAGE_S3_BUCKET_NAME : "fish-classification-bucket"
   EB_APPLICATION_NAME       : "FishReecognition"
   EB_ENVIRONMENT_NAME       : "Fishrecognition-env"
-  DEPLOY_PACKAGE_NAME       : "FishReecognition-app-{{github.sha}}.zip"
+  DEPLOY_PACKAGE_NAME       : "FishReecognition-app-${{github.sha}}.zip"
   AWS_REGION_NAME           : "eu-west-2"
   
 
